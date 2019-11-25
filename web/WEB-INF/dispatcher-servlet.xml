@@ -15,13 +15,43 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
-    <!--validator的配置一定要做springmvc的配置文件中，不然在application中注入，已经迟了，无法进行参数校验
-        这里屏蔽掉是换成config 编程实现，注意@EnableWebMvc
-    -->
+<!--validator的配置一定要做springMvc的配置文件中，不然在application中注入，已经迟了，无法进行参数校验
+    这里屏蔽掉是换成config 编程实现，注意@EnableWebMvc
+-->
 <!--
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
--->
-<!--
     <mvc:annotation-driven validator="validator"/>
 -->
+
+    <!--springMvc进行国际化-->
+    <!--1.配置session国际化解析器 -->
+    <bean id="localeResolver"
+          class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="zh_CN" />
+    </bean>
+
+
+    <!-- 国际化资源文件 messageSource配置的是国际化资源文件的路径， classpath:messages指的是classpath路径下的
+        messages_zh_CN.properties文件和messages_en_US.properties文件 设置“useCodeAsDefaultMessage”，默认为false，这样当Spring在ResourceBundle中找不到messageKey的话，就抛出NoSuchMessageException，
+        把它设置为True，则找不到不会抛出异常，而是使用messageKey作为返回值。 -->
+    <bean id="messageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="defaultEncoding" value="UTF-8" />
+        <property name="useCodeAsDefaultMessage" value="true" />
+        <property name="basenames">
+            <list>
+                <value>classpath:msg/messages</value>
+            </list>
+        </property>
+    </bean>
+    <!--该拦截器通过名为”lang”的参数来拦截HTTP请求，使其重新设置页面的区域化信息 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+                <property name="paramName" value="language" />
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

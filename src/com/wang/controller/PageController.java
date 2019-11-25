@@ -31,8 +31,12 @@ public class PageController {
             model.addAttribute("errors", validMess);
             return "error";
         }
-        model.addAttribute("name","son of the wind");
         return "page";
+    }
+
+    @RequestMapping("languageChange")
+    public String languageChange(Model model){
+        return "languageChange";
     }
 
     @RequestMapping("userData")

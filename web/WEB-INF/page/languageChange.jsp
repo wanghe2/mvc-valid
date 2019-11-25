@@ -8,9 +8,12 @@
     <title>Title</title>
 </head>
 <body>
+<div>
+    <a href="${pageContext.request.contextPath}/languageChange.form?language=zh_CN">中文</a>
+    <a href="${pageContext.request.contextPath}/languageChange.form?language=en_US">英文</a>
+</div>
 <br/><br/><br/><br/>
-<h1>欢迎来到新页面</h1>
-<br/><br/><br/><br/>
-<a href="${pageContext.request.contextPath}/languageChange.form?new&locale=zh_CN">中英文切换页面</a>
+<h1><spring:message code="country" /></h1>
+<h1><spring:message code="home" /></h1>
 </body>
 </html>
